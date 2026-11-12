@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10122b">
+  <meta name="description" content="下班后翻开一张牌，带走一句解读和一个今晚就能做的小动作。">
+  <title>下班运势牌</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="decks.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="scenery" aria-hidden="true"></div>
+  <div class="site">
+    <header class="masthead">
+      <button class="brand" id="home-button" type="button">
+        <span class="brand-icon" aria-hidden="true">☾</span>
+        下班运势牌
+      </button>
+      <div class="header-actions">
+        <time id="today"></time>
+        <button class="quiet-button" id="history-button" type="button">
+          <span aria-hidden="true">◷</span> 抽牌记录
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="main-title">
+        <div class="hero-copy">
+          <div id="draw-view">
+            <button class="text-button back-link" id="weekly-back" type="button" hidden>← 返回首页</button>
+            <h1 id="main-title" tabindex="-1">下班了，<br><span>给今晚抽张牌。</span></h1>
+            <p id="intro" class="intro">翻开一张牌，带走一句解读和一个今晚就能做的小动作。</p>
+            <fieldset id="mood-picker" class="moods">
+              <legend>这会儿，心情怎么样？<span>（选填）</span></legend>
+              <div class="mood-options">
+                <button class="mood-button" type="button" data-mood="happy" aria-pressed="false">
+                  <strong>开心</strong><span>想起来就想笑</span>
+                </button>
+                <button class="mood-button" type="button" data-mood="calm" aria-pressed="false">
+                  <strong>平静</strong><span>心里挺安稳的</span>
+                </button>
+                <button class="mood-button" type="button" data-mood="anxious" aria-pressed="false">
+                  <strong>焦虑</strong><span>总在想「万一……怎么办？」</span>
+                </button>
+                <button class="mood-button" type="button" data-mood="angry" aria-pressed="false">
+                  <strong>生气</strong><span>想起来还是来气</span>
+                </button>
+                <button class="mood-button" type="button" data-mood="low" aria-pressed="false">
+                  <strong>低落</strong><span>很失望很难过</span>
+                </button>
+                <button class="mood-button" type="button" data-mood="envious" aria-pressed="false">
+                  <strong>羡慕</strong><span>很羡慕，我也想拥有</span>
+                </button>
+                <button class="mood-button" type="button" data-mood="regretful" aria-pressed="false">
+                  <strong>后悔</strong><span>很后悔，早知道就……</span>
+                </button>
+              </div>
+            </fieldset>
+            <button class="primary" id="draw-button" type="button"><span aria-hidden="true">✦</span> <span id="draw-label">抽张下班牌</span></button>
+          </div>
+          <div id="result-view" hidden>
+            <button class="text-button back-link" id="result-back" type="button">← 返回首页</button>
+            <p class="result-kind" id="result-kind"></p>
+            <h2 id="result-title" tabindex="-1"></h2>
+            <p class="intro" id="result-reading"></p>
+            <div class="action-note">
+              <strong id="action-label"></strong>
+              <p id="result-action"></p>
+            </div>
+            <button class="primary" id="save-button" type="button"><span aria-hidden="true">↓</span> 保存牌面</button>
+            <p id="save-status" class="status" role="status" hidden></p>
+          </div>
+        </div>
+
+        <div class="stage" aria-hidden="true">
+          <div class="orbit"></div>
+          <div class="orbit orbit-inner"></div>
+          <span class="spark spark-top">✧</span><span class="spark spark-left">✦</span>
+          <span class="spark spark-right">✦</span><span class="spark spark-bottom">✧</span>
+          <div class="deck" id="deck">
+            <div class="under-card under-left"></div>
+            <div class="under-card under-right"></div>
+            <div class="card" id="display-card">
+              <div class="card-trim"></div>
+              <span class="card-star top-star">✦</span>
+              <div class="card-medallion"><span id="card-symbol">☾</span></div>
+              <span class="card-star bottom-star" id="card-caption">✦</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="weekly-panel" id="weekly-panel" aria-labelledby="weekly-title">
+        <div class="weekly-icon" aria-hidden="true">✧</div>
+        <div class="weekly-copy">
+          <h2 id="weekly-title">本周贵人</h2>
+          <p>抽一张牌，看看这周可以留意哪一类人。</p>
+        </div>
+        <button class="quiet-button weekly-button" id="weekly-button" type="button">
+          <span id="weekly-label">抽张贵人牌</span> <span aria-hidden="true">→</span>
+        </button>
+      </section>
+    </main>
+
+    <footer><span aria-hidden="true">✧</span> 娱乐抽牌 <span aria-hidden="true">·</span> 记录保存在当前浏览器</footer>
+  </div>
+
+  <dialog id="history-dialog" aria-labelledby="history-title">
+    <div class="dialog-head">
+      <h2 id="history-title">抽牌记录</h2>
+      <form method="dialog"><button class="quiet-button icon-button" aria-label="关闭抽牌记录">×</button></form>
+    </div>
+    <p id="history-empty">抽过的牌会出现在这里。</p>
+    <div id="history-list"></div>
+  </dialog>
+
+  <dialog id="share-dialog" aria-labelledby="share-title">
+    <div class="dialog-head">
+      <h2 id="share-title">保存牌面</h2>
+      <form method="dialog"><button class="quiet-button icon-button" aria-label="关闭保存牌面">×</button></form>
+    </div>
+    <p class="share-help">可以下载图片，也可以长按牌面保存或截图。</p>
+    <img id="share-image" width="840" height="1100" alt="">
+    <a id="download-link" class="primary" download>↓ 下载图片</a>
+  </dialog>
+</body>
+</html>
